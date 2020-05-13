@@ -8,7 +8,20 @@ void main(){
       color: Colors.white,
       child: Column(
         children: <Widget>[
-          Text(
+          FlatButton(
+              onPressed: (){
+                print('btn pressionado');
+              },
+              child: Text(
+                'Clique aqui',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blue,
+                  decoration: TextDecoration.none
+                ),
+              )
+          )
+         /* Text(
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ipsum diam.",
           style: TextStyle(
             fontSize: 35,
@@ -21,7 +34,7 @@ void main(){
             decorationColor: Colors.black12,
             color: Colors.black87
           ),
-          )
+          )*/
         ],
       ),
     )
