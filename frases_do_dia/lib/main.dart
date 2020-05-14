@@ -7,21 +7,28 @@ void main() {
       // debugShowCheckedModeBanner: false,
       title: 'Frases do dia!!',
       home: Container(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-        // padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+         //margin: EdgeInsets.all(0),
+         margin: EdgeInsets.only(top: 40),
         // color: Colors.white,
         decoration:
             BoxDecoration(border: Border.all(width: 3, color: Colors.grey)),
-        child: Column(
+        child: Image.asset(
+          "images/laptop.jpg",
+          fit: BoxFit.contain,
+        ),
+        /*Column(
           children: <Widget>[
-            Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec ipsum diam.',
+            Text('T-1'),
+            Text('T-2'),
+            Text('T-3')
+            /*Text(
+              'Lorem ipsum',
               textAlign: TextAlign.justify,
             ),
             Padding(
               padding: EdgeInsets.all(20),
               child: Text("Texto 2"),
-            )
+            )*/
             /* FlatButton(
               onPressed: (){
                 print('btn pressionado');
@@ -50,6 +57,7 @@ void main() {
           ),
           )*/
           ],
-        ),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        ),*/
       )));
 }
