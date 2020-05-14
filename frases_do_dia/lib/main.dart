@@ -4,9 +4,30 @@ import 'package:flutter/painting.dart';
 
 void main() {
   runApp(MaterialApp(
-      // debugShowCheckedModeBanner: false,
-      title: 'Frases do dia!!',
-      home: Container(
+       debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('My App'),
+          backgroundColor: Colors.blue,
+
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(16),
+          child: Text('Conteudo Pricinpal'),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.lightBlueAccent,
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: <Widget>[
+                Text('Conteudo Botton')
+              ],
+            ),
+          ),
+        ),
+      ),
+    /*Container(
          //margin: EdgeInsets.all(0),
          margin: EdgeInsets.only(top: 40),
         // color: Colors.white,
@@ -59,5 +80,5 @@ void main() {
           ],
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         ),*/
-      )));
+      )*/));
 }
