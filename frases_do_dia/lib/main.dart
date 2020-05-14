@@ -2,31 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+/*
+  Stateless = Widgets que nao podem ser alterados
+  Stateful = Widgets que podem ser alterados
+ */
 void main() {
   runApp(MaterialApp(
-       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My App'),
-          backgroundColor: Colors.blue,
-
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('Conteudo Pricinpal'),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.lightBlueAccent,
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              children: <Widget>[
-                Text('Conteudo Botton')
-              ],
-            ),
-          ),
-        ),
-      ),
+    debugShowCheckedModeBanner: false,
+    home: HomeStateful(),
     /*Container(
          //margin: EdgeInsets.all(0),
          margin: EdgeInsets.only(top: 40),
@@ -80,5 +63,70 @@ void main() {
           ],
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         ),*/
-      )*/));
+      )*/
+  ));
+}
+
+class HomeStateful extends StatefulWidget {
+  @override
+  _HomeStatefulState createState() => _HomeStatefulState();
+}
+
+class _HomeStatefulState extends State<HomeStateful> {
+
+  var _texto = "My App desenvolvido em Flutter";
+  @override
+  Widget build(BuildContext context) {
+    print('Build chamado');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text( "My App" ),
+        backgroundColor: Colors.blue,
+      ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              onPressed: (){
+                setState(() {
+                  _texto = "Curso Flutter";
+                });
+              },
+              color: Colors.blueGrey,
+              child: Text("Clique aqui"),
+            ),
+            Text('Nome: $_texto')
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    var _title = "My App";
+    return Scaffold(
+      appBar: AppBar(
+        title: Text( _title ),
+        backgroundColor: Colors.blue,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: Text('Conteudo Pricinpal'),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.lightBlueAccent,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: <Widget>[Text('Conteudo Botton')],
+          ),
+        ),
+      ),
+    );
+  }
 }
