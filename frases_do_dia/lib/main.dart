@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'dart:math';
 
-void main(){
+import 'package:flutter/material.dart';
+
+void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Home(),
@@ -15,6 +15,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var _frases = ["frase 1", "frase 2", "frase 3", "frase 4"];
+
+  var _fraseGerada = "Clique abaixo para gera a frase";
+
+  /****metodo para sortear a frase gerada**********/
+  void _geraFrase() {
+    var numeroSorteado = Random().nextInt(_frases.length);
+    //print(numeroSorteado);
+    setState(() {
+      _fraseGerada = _frases[ numeroSorteado ];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,26 +47,23 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Image.asset("images/logo.png"),
             Text(
-              "Clique aqui para gera a frase",
+              _fraseGerada,
               textAlign: TextAlign.justify,
               style: TextStyle(
-                fontSize: 20,
-                fontStyle: FontStyle.italic,
-                color: Colors.black87
-              ),
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.black87),
             ),
             RaisedButton(
                 child: Text(
                   "Nova Frase",
                   style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                  ),
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
-              color: Colors.blue,
-              onPressed: (){},
-            )
+                color: Colors.blue,
+                onPressed: _geraFrase)
           ],
         ),
       ),
