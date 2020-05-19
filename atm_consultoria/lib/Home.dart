@@ -1,3 +1,7 @@
+import 'package:atmconsultoria/TelaCliente.dart';
+import 'package:atmconsultoria/TelaContato.dart';
+import 'package:atmconsultoria/TelaEmpresa.dart';
+import 'package:atmconsultoria/TelaServico.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +11,26 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  void _abriEmpresa(){
-
+  void _telaEmpresa() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TelaEmpresa()));
   }
+
+  void _telaServico() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TelaServico()));
+  }
+
+  void _telaCliente() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TelaCliente()));
+  }
+
+  void _telaContato() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TelaContato()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +39,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.green,
         title: Text(
           "ATM Consultoria",
-          style: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: Colors.white
-          ),
+          style: TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
         ),
       ),
       body: Container(
@@ -38,11 +55,11 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: _abriEmpresa,
+                    onTap: _telaEmpresa,
                     child: Image.asset("image/menu_empresa.png"),
                   ),
                   GestureDetector(
-                    onTap: _abriEmpresa,
+                    onTap: _telaServico,
                     child: Image.asset("image/menu_servico.png"),
                   )
                 ],
@@ -54,10 +71,11 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   GestureDetector(
-                    onTap: _abriEmpresa,
+                    onTap: _telaCliente,
                     child: Image.asset("image/menu_cliente.png"),
-                  ),GestureDetector(
-                    onTap: _abriEmpresa,
+                  ),
+                  GestureDetector(
+                    onTap: _telaContato,
                     child: Image.asset("image/menu_contato.png"),
                   )
                 ],
