@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Home extends StatefulWidget {
@@ -64,6 +66,44 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Widget criaItemLista(context, index) {
+    final position = _listaTarefas[index]['titulo'];
+
+    return Dismissible(
+        key: Key(position),
+        direction: DismissDirection.endToStart,
+        onDismissed: ( direction ){
+          // remove item da lista
+          _listaTarefas.removeAt(index);
+          _salvarArquivo();
+        },
+        background: Container(
+          color: Colors.red,
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ],
+          )
+        ),
+        child: CheckboxListTile(
+          title: Text(_listaTarefas[index]['titulo']),
+          value: _listaTarefas[index]['realizada'],
+          onChanged: (valorAlterado) {
+            //print("valor: "+ valorAlterado.toString());
+            setState(() {
+              _listaTarefas[index]['realizada'] = valorAlterado;
+            });
+
+            _salvarArquivo();
+          },
+        ));
+  }
+
   @override
   void initState() {
     // faz alteracao anted de carregar o build
@@ -123,24 +163,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-                itemCount: _listaTarefas.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Text(_listaTarefas[index]['titulo']),
-                    value: _listaTarefas[index]['realizada'],
-                    onChanged: (valorAlterado) {
-                      //print("valor: "+ valorAlterado.toString());
-                      setState(() {
-                        _listaTarefas[index]['realizada'] = valorAlterado;
-                      });
-
-                      _salvarArquivo();
-                    },
-                  );
-                  /*return ListTile(
-                    title: Text(_listaTarefas[index]['titulo']),
-                  );*/
-                }),
+                itemCount: _listaTarefas.length, itemBuilder: criaItemLista),
           )
         ],
       ),
