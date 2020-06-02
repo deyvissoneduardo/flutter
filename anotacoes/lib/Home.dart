@@ -1,3 +1,5 @@
+import 'package:anotacoes/helper/AnotacaoHelper.dart';
+import 'package:anotacoes/model/Anotacao.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -8,6 +10,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   TextEditingController _controllerTitulo = TextEditingController();
   TextEditingController _controllerDescricao = TextEditingController();
+  var _banco = AnotacaoHelper();
 
   _exibirTela() {
     showDialog(
@@ -34,18 +37,28 @@ class _HomeState extends State<Home> {
             actions: <Widget>[
               FlatButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('Cancelar')
-              ),
+                  child: Text('Cancelar')),
               FlatButton(
-                  onPressed: (){
+                  onPressed: () {
                     // salvar
+                    _salvarAnotacao();
                     Navigator.pop(context);
                   },
-                  child: Text('Salvar')
-              )
+                  child: Text('Salvar'))
             ],
           );
         });
+  }
+
+  _salvarAnotacao() async{
+    // recupera o texto digitago
+    String titulo = _controllerTitulo.text;
+    String descricao = _controllerDescricao.text;
+
+    // insere no banco
+    Anotacao anotacao = Anotacao(titulo, descricao, DateTime.now().toString() );
+    int resultado = await _banco.salvarAnotacao(anotacao);
+     print('salvo com id: ' + resultado.toString());
   }
 
   @override

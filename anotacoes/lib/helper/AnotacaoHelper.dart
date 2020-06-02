@@ -1,11 +1,13 @@
 /*
  * Essa classe utiliza o padrao singleton
  */
+import 'package:anotacoes/model/Anotacao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AnotacaoHelper {
-  String _nomeBanco = "banco_minhas_anotacoes.db";
+  static final String _nomeBanco = "banco_minhas_anotacoes.db";
+  static final String _nomeTabela = 'anotacao';
   static final AnotacaoHelper _anotacaoHelper = AnotacaoHelper._internal();
   Database _db;
 
@@ -23,12 +25,12 @@ class AnotacaoHelper {
     final localDatabase = join(caminhoDataBase, _nomeBanco);
 
     var db =
-        await openDatabase(localDatabase, version: 1, onCreate: _onCreate());
+        await openDatabase(localDatabase, version: 1, onCreate: _onCreate);
     return db;
   }
 
   _onCreate(Database db, int version) async {
-    String sql = 'CREATE TABLE anotacao ('
+    String sql = 'CREATE TABLE $_nomeTabela ('
         'id INTEGER PRIMARY KEY AUTOINCREMENT, '
         'titulo VARCHAR, '
         'descricao TEXT, '
@@ -43,6 +45,18 @@ class AnotacaoHelper {
   get db async {
     if (_db != null) {
       return _db;
-    } else {}
+    } else {
+      _db = await inicializarDB();
+      return _db;
+    }
+  }
+
+  /*
+   * salva automaticamente no banco
+   */
+  Future<int> salvarAnotacao( Anotacao anotacao) async{
+    var bancoDados = await db;
+    int resultado = await bancoDados.insert(_nomeTabela, anotacao.toMap());
+    return resultado;
   }
 }
