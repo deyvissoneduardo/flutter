@@ -11,6 +11,7 @@ class _HomeState extends State<Home> {
   TextEditingController _controllerTitulo = TextEditingController();
   TextEditingController _controllerDescricao = TextEditingController();
   var _banco = AnotacaoHelper();
+  List<Anotacao> _anotacoes = List<Anotacao>();
 
   _exibirTela() {
     showDialog(
@@ -50,15 +51,43 @@ class _HomeState extends State<Home> {
         });
   }
 
-  _salvarAnotacao() async{
+  _recuperaAnotacao() async {
+    List anotacoesRecuperados = await _banco.recuperaAnotacao();
+    List<Anotacao> listaTemporaria = List<Anotacao>();
+
+    for (var item in anotacoesRecuperados) {
+      Anotacao anotacao = Anotacao.fromMap(item);
+      listaTemporaria.add(anotacao);
+    }
+
+    setState(() {
+      _anotacoes = listaTemporaria;
+    });
+
+    listaTemporaria = null;
+    //print('lista salva: ' + anotacoesRecuperados.toString());
+  }
+
+  _salvarAnotacao() async {
     // recupera o texto digitago
     String titulo = _controllerTitulo.text;
     String descricao = _controllerDescricao.text;
 
     // insere no banco
-    Anotacao anotacao = Anotacao(titulo, descricao, DateTime.now().toString() );
+    Anotacao anotacao = Anotacao(titulo, descricao, DateTime.now().toString());
     int resultado = await _banco.salvarAnotacao(anotacao);
-     print('salvo com id: ' + resultado.toString());
+   // print('salvo com id: ' + resultado.toString());
+
+    _controllerTitulo.clear();
+    _controllerDescricao.clear();
+
+    _recuperaAnotacao();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _recuperaAnotacao();
   }
 
   @override
@@ -68,7 +97,27 @@ class _HomeState extends State<Home> {
         title: Text("Anotações"),
         backgroundColor: Colors.lightGreen,
       ),
-      body: Container(),
+
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+                itemCount: _anotacoes.length,
+                itemBuilder: (context, index){
+
+                  final item = _anotacoes[index];
+
+                  return Card(
+                    child: ListTile(
+                      title: Text( item.titulo ),
+                      subtitle: Text( '${item.data} - ${item.descricao}' ),
+                    ),
+                  );
+                }
+            ),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightGreen,
         foregroundColor: Colors.white,

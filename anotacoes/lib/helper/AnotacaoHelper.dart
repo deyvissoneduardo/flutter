@@ -59,4 +59,14 @@ class AnotacaoHelper {
     int resultado = await bancoDados.insert(_nomeTabela, anotacao.toMap());
     return resultado;
   }
+
+  /*
+   * recupera coluna do banco de dados
+   */
+  recuperaAnotacao() async {
+    var bancoDados = await db;
+    String sql = 'SELECT * FROM $_nomeTabela ORDER BY data DESC';
+    List anotacoes = await bancoDados.rawQuery(sql);
+    return anotacoes;
+  }
 }
