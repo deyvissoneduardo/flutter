@@ -1,6 +1,8 @@
 import 'package:anotacoes/helper/AnotacaoHelper.dart';
 import 'package:anotacoes/model/Anotacao.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -76,12 +78,26 @@ class _HomeState extends State<Home> {
     // insere no banco
     Anotacao anotacao = Anotacao(titulo, descricao, DateTime.now().toString());
     int resultado = await _banco.salvarAnotacao(anotacao);
-   // print('salvo com id: ' + resultado.toString());
+    // print('salvo com id: ' + resultado.toString());
 
     _controllerTitulo.clear();
     _controllerDescricao.clear();
 
     _recuperaAnotacao();
+  }
+
+  _formataData(String data) {
+    // indica pais de origem para formata datas
+    initializeDateFormatting("pt_BR");
+
+    // aplicando formatacao
+    //var formater = DateFormat("dd/MMM/y H:m:s");
+    var formater = DateFormat.yMMMMd("pt_BR");
+
+    DateTime dataConverte = DateTime.parse( data );
+    String dataFormatada = formater.format( dataConverte );
+
+    return dataFormatada;
   }
 
   @override
@@ -97,24 +113,22 @@ class _HomeState extends State<Home> {
         title: Text("Anotações"),
         backgroundColor: Colors.lightGreen,
       ),
-
       body: Column(
         children: <Widget>[
           Expanded(
             child: ListView.builder(
                 itemCount: _anotacoes.length,
-                itemBuilder: (context, index){
-
+                itemBuilder: (context, index) {
                   final item = _anotacoes[index];
 
                   return Card(
                     child: ListTile(
-                      title: Text( item.titulo ),
-                      subtitle: Text( '${item.data} - ${item.descricao}' ),
+                      title: Text(item.titulo),
+                      subtitle: Text(
+                          '${_formataData(item.data)} - ${item.descricao}'),
                     ),
                   );
-                }
-            ),
+                }),
           )
         ],
       ),
