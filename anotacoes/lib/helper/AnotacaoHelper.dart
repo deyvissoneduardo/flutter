@@ -69,4 +69,18 @@ class AnotacaoHelper {
     List anotacoes = await bancoDados.rawQuery(sql);
     return anotacoes;
   }
+
+  /*
+   * atualiza anotacao
+   */
+  Future<int> atulizarAnotacao( Anotacao anotacao) async {
+
+    var bancoDados = await db;
+    return await bancoDados.update(
+      _nomeTabela,
+      anotacao.toMap(),
+      where: "id = ?",
+      whereArgs: [anotacao.id]
+    );
+  }
 }
