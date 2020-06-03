@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
     if (anotacaoSelecionada == null) {
       // insere no banco
       Anotacao anotacao =
-          Anotacao(titulo, descricao, DateTime.now().toString());
+      Anotacao(titulo, descricao, DateTime.now().toString());
       int resultado = await _banco.salvarAnotacao(anotacao);
       // print('salvo com id: ' + resultado.toString());
     } else {
@@ -123,6 +123,12 @@ class _HomeState extends State<Home> {
     return dataFormatada;
   }
 
+  _removeAnotacao(int id) async {
+    await _banco.removeAnotacao(id);
+    _recuperaAnotacao();
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -148,7 +154,8 @@ class _HomeState extends State<Home> {
                     child: ListTile(
                       title: Text(anotacao.titulo),
                       subtitle: Text(
-                          '${_formataData(anotacao.data)} - ${anotacao.descricao}'),
+                          '${_formataData(anotacao.data)} - ${anotacao
+                              .descricao}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -165,7 +172,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              _removeAnotacao(anotacao.id);
+                            },
                             child: Padding(
                               padding: EdgeInsets.only(right: 0),
                               child: Icon(

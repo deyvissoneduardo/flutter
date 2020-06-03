@@ -24,8 +24,7 @@ class AnotacaoHelper {
     final caminhoDataBase = await getDatabasesPath();
     final localDatabase = join(caminhoDataBase, _nomeBanco);
 
-    var db =
-        await openDatabase(localDatabase, version: 1, onCreate: _onCreate);
+    var db = await openDatabase(localDatabase, version: 1, onCreate: _onCreate);
     return db;
   }
 
@@ -54,7 +53,7 @@ class AnotacaoHelper {
   /*
    * salva automaticamente no banco
    */
-  Future<int> salvarAnotacao( Anotacao anotacao) async{
+  Future<int> salvarAnotacao(Anotacao anotacao) async {
     var bancoDados = await db;
     int resultado = await bancoDados.insert(_nomeTabela, anotacao.toMap());
     return resultado;
@@ -73,14 +72,17 @@ class AnotacaoHelper {
   /*
    * atualiza anotacao
    */
-  Future<int> atulizarAnotacao( Anotacao anotacao) async {
-
+  Future<int> atulizarAnotacao(Anotacao anotacao) async {
     var bancoDados = await db;
-    return await bancoDados.update(
-      _nomeTabela,
-      anotacao.toMap(),
-      where: "id = ?",
-      whereArgs: [anotacao.id]
-    );
+    return await bancoDados.update(_nomeTabela, anotacao.toMap(),
+        where: "id = ?", whereArgs: [anotacao.id]);
+  }
+
+  /*
+   * remove anotacao
+   */
+  Future<int> removeAnotacao(int id) async {
+    var bancoDados = await db;
+   return await bancoDados.delete(_nomeTabela, where: "id = ?", whereArgs: [id]);
   }
 }
