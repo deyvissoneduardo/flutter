@@ -1,6 +1,6 @@
 # aprendaingles
 
-app que executa sons em ingles quando clicado no item correspondente
+app utiliza plugins para execução de sons
 
 ## Getting Started
 
